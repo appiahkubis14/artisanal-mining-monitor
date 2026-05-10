@@ -1,0 +1,49 @@
+# ============================================================
+# Atewa Forest Illegal Mining Detection Pipeline
+# Python dependencies
+# Tested on Python 3.10 / Ubuntu 22.04 / CUDA 11.8+
+# ============================================================
+
+# ---- Core scientific stack ----
+numpy>=1.24,<2.0
+scipy>=1.11
+pandas>=2.0
+scikit-learn>=1.3
+
+# ---- Geospatial ----
+geopandas>=0.14
+rasterio>=1.3.8
+shapely>=2.0
+pyproj>=3.6
+fiona>=1.9
+
+# ---- Image processing ----
+opencv-python-headless>=4.8  # use opencv-python if GUI needed
+Pillow>=10.0
+
+# ---- Deep learning (PyTorch) ----
+# Install PyTorch separately with the correct CUDA version:
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
+# or CPU-only:
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+torch>=2.1
+torchvision>=0.16
+
+# ---- YOLOv8 ----
+ultralytics>=8.1
+
+# ---- Visualisation ----
+matplotlib>=3.7
+folium>=0.15
+branca>=0.7           # folium dependency
+xarray>=2023.6        # optional, for NetCDF data
+
+# ---- Utilities ----
+PyYAML>=6.0
+tqdm>=4.66
+tensorboard>=2.14     # training curves
+
+# ---- Optional: notebook / exploration ----
+# jupyter>=1.0
+# ipykernel>=6.0
+# leafmap>=0.29        # advanced interactive maps (optional)

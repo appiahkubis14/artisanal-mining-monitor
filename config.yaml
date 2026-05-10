@@ -1,0 +1,197 @@
+# =============================================================================
+# Atewa Forest Reserve Illegal Mining Detection System
+# Central Configuration File
+# =============================================================================
+# Master's Thesis, KNUST Ghana
+# Supervisor: Geomatics Department
+
+paths:
+  raw_data: "data/raw/"
+  processed_data: "data/processed/"
+  tiles: "data/tiles/"
+  features: "data/features/"
+  masks: "data/masks/"
+  models: "data/models/"
+  outputs: "data/outputs/"
+  logs: "logs/"
+  boundary: "data/boundary/atewa_boundary.geojson"
+  ground_truth: "data/ground_truth/mining_sites.csv"
+
+preprocessing:
+  sentinel2_resolution: 10           # meters per pixel
+  sentinel2_bands: [2, 3, 4, 8, 11, 12]  # B2=Blue, B3=Green, B4=Red, B8=NIR, B11=SWIR1, B12=SWIR2
+  cloud_mask: true
+  cloud_mask_threshold: 0.30         # reject pixels with cloud prob > 30%
+  temporal_composite_days: 30        # days for gap-filling median composite
+  speckle_filter: true
+  speckle_window: 5                  # pixels, for Lee filter
+  dem_source: "SRTM"                 # DEM for terrain correction
+  normalize: true                    # normalize to [0, 1]
+
+tiling:
+  satellite_tile_size: 512           # pixels
+  uav_tile_size: 640                 # pixels (YOLO-optimized)
+  overlap: 0.20                      # 20% overlap between tiles
+  min_valid_fraction: 0.10           # skip tiles with <10% valid pixels
+  max_cloud_fraction: 0.90           # skip tiles with >90% cloud
+
+training_unet:
+  architecture: "unet"               # options: unet, attention_unet, resunet
+  encoder: "resnet50"                # backbone encoder
+  pretrained: true                   # use ImageNet/EuroSAT pretrained weights
+  epochs: 100
+  batch_size: 16
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  early_stopping_patience: 15
+  focal_loss_gamma: 2.0
+  focal_loss_alpha: 0.25
+  amp: true                          # automatic mixed precision
+  grad_clip: 1.0                     # gradient clipping value
+  val_split: 0.15
+  test_split: 0.15
+  spatial_buffer_km: 2.0             # spatial separation between splits
+
+training_yolo:
+  model: "yolov8m.pt"                # yolov8n/s/m/l/x
+  image_size: 640
+  epochs: 100
+  batch_size: 16
+  learning_rate: 0.01
+  early_stopping_patience: 20
+  augment: true
+  classes:
+    - excavator
+    - truck
+    - water_pump
+    - settling_pond
+    - pit
+
+inference:
+  thresholds:
+    low: 0.30                        # low confidence
+    medium: 0.50                     # medium confidence
+    high: 0.70                       # high confidence
+  min_polygon_area_m2: 50            # discard polygons smaller than this
+  batch_size: 32                     # tiles per inference batch
+
+postprocessing:
+  min_polygon_area_m2: 50
+  max_merge_distance_m: 15           # merge nearby detections
+  iou_dedup_threshold: 0.5           # IoU threshold for deduplication
+  water_buffer_m: 100                # distance buffer for water proximity
+
+fusion:
+  uav_priority_1:                    # trigger UAV analysis
+    confidence_threshold: 0.70
+    area_m2: 500
+  uav_priority_2:
+    confidence_threshold: 0.50
+    area_m2: 200
+  ransac_reproj_threshold: 3.0       # pixels
+  ransac_max_iter: 1000
+  equipment_classes: ["excavator", "truck", "water_pump", "settling_pond", "pit"]
+
+prioritization:
+  weights:
+    area: 0.30
+    equipment: 0.25
+    water_proximity: 0.20
+    confidence: 0.15
+    activity: 0.10
+
+change_detection:
+  centroid_match_distance_m: 50      # max distance to match sites across dates
+  iou_match_threshold: 0.30
+  expansion_threshold: 0.20          # 20% area growth = active
+  ndvi_recovery_threshold: 0.10      # NDVI increase = recovering
+  kalman_process_noise: 0.01
+  kalman_observation_noise: 0.1
+
+validation:
+  spatial_cv_folds: 5
+  spatial_cv_buffer_km: 2.0
+  train_years: [2018, 2019, 2020, 2021, 2022]
+  test_years: [2023, 2024, 2025]
+
+dashboard:
+  map_center: [6.2, -0.55]           # Atewa Forest approximate center (lat, lon)
+  default_zoom: 11
+  output_filename: "atewa_mining_dashboard.html"
+  tile_provider: "CartoDB positron"
+
+random_seed: 42
+device: "cuda"                       # "cuda" or "cpu" - auto-detected if cuda unavailable
+log_level: "INFO"
+
+# ── UAV Auto-Annotation ───────────────────────────────────────────────────
+# Parameters for generate_uav_masks.py.
+# Run `python main.py --step generate_masks` to produce training masks
+# automatically from the UAV orthomosaic — no manual digitising required.
+uav_annotation:
+  enabled: true
+
+  # Bare-soil RGB thresholds (pre-normalisation, 0–255 scale)
+  bare_soil_red_threshold: 100       # red channel must exceed this
+  bare_soil_green_threshold: 80      # green channel must exceed this
+  bare_soil_ratio_min: 0.8           # red/green ratio lower bound
+  bare_soil_ratio_max: 1.5           # red/green ratio upper bound
+
+  # Texture (GLCM entropy on 5×5 window)
+  entropy_threshold: 2.0             # pixels above this = rough/disturbed terrain
+
+  # Edge density (Canny edges in 50×50 blocks)
+  edge_density_threshold: 0.3        # fraction of edge pixels per block
+
+  # Scoring
+  mining_score_threshold: 0.6        # combined score threshold → binary mask
+  # weights: bare_soil=0.4, entropy=0.3, edge_density=0.3 (hard-coded)
+
+  # Post-processing
+  min_mining_area_m2: 50             # remove connected components smaller than this
+
+  # Resampling to satellite resolution
+  resample_method: "majority"        # majority vote (>30% UAV pixels = mining)
+  resample_cell_size_m: 10           # target pixel size (Sentinel-2)
+
+# ── Roboflow Annotation Integration ──────────────────────────────────────────
+# Used by:
+#   uav_tiler_roboflow.py       → python main.py --step prep_roboflow
+#   import_roboflow_annotations.py → python main.py --step import_roboflow
+#
+# Workflow:
+#   1. python main.py --step prep_roboflow
+#      → Creates 640×640 JPEG tiles in roboflow.output_dir/images/
+#      → Creates tile_coordinates.json for georeferencing
+#   2. Upload images/ folder to https://roboflow.com
+#   3. Annotate equipment (excavators, trucks, water pumps, etc.)
+#   4. Export as "YOLOv8" format → download ZIP
+#   5. Place extracted labels/ folder in roboflow.export_dir/
+#   6. python main.py --step import_roboflow
+#   7. python main.py --step train_yolo
+roboflow:
+  tile_size: 640                     # YOLO standard; also Roboflow default
+  overlap_fraction: 0.10             # 10% overlap so edge equipment isn't missed
+  jpeg_quality: 92                   # JPEG compression quality (0-100)
+
+  output_dir: "data/roboflow_upload" # tiles for upload go here
+  export_dir: "data/roboflow_export" # place Roboflow YOLO export here, or leave
+                                     # blank and fill API credentials below
+
+  # ── Roboflow API credentials (optional) ────────────────────────────────
+  # If all three fields are filled, --step import_roboflow downloads the
+  # annotated dataset automatically via the Roboflow Python SDK.
+  # Leave blank to use the manual export workflow instead.
+  # Your API key: https://app.roboflow.com → profile → API Keys
+  api_key:   ""                      # e.g. "abc123XYZ"
+  workspace: ""                      # your workspace slug (shown in the URL)
+  project:   ""                      # your project name slug
+  version:   1                       # dataset version number to download
+
+  # Equipment class definitions (must match Roboflow project classes)
+  classes:
+    excavator:     0
+    truck:         1
+    water_pump:    2
+    settling_pond: 3
+    pit:           4
