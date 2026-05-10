@@ -530,7 +530,7 @@ prioritization:
 ## Citation
 
 ```
-[Your Name] (2025). Detecting Illegal Artisanal Mining in Atewa Forest Reserve
+Samuel Appiah Kubi (2026). Detecting Illegal Artisanal Mining in Atewa Forest Reserve
 Using Multi-Sensor Deep Learning, UAV Auto-Annotation, and Roboflow Equipment
 Labelling. Master's Thesis, Kwame Nkrumah University of Science and Technology
 (KNUST), Ghana.
@@ -541,4 +541,4 @@ Labelling. Master's Thesis, Kwame Nkrumah University of Science and Technology
 ## Licence
 
 For academic and non-commercial use only.
-(c) 2025 KNUST -- Department of [Your Department]
+(c) 2026 KNUST -- Department of Geomatic Engineering
