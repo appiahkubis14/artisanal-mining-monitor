@@ -366,6 +366,18 @@ def build_dataloaders(
         tile_metadata, val_fraction, test_fraction, seed=seed
     )
 
+    # Guard: if too few tiles for a proper split, share tiles across sets
+    # (happens with small synthetic scenes — real data will always have enough)
+    all_ids = tile_metadata["tile_ids"]
+    if len(train_ids) == 0:
+        logger.warning(
+            f"Training split is empty ({len(all_ids)} total tiles). "
+            "Reusing all tiles for train/val/test (testing mode only)."
+        )
+        train_ids = list(all_ids)
+        val_ids   = list(all_ids)
+        test_ids  = list(all_ids)
+
     # Infer channels from first tile
     if n_channels is None:
         first_tile = os.path.join(tiles_dir, f"{tile_metadata['tile_ids'][0]}.npy")

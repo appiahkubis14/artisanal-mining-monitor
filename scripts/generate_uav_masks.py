@@ -423,7 +423,7 @@ def generate_uav_masks(config: dict) -> dict:
     # ------------------------------------------------------------------ #
     # Step 1 — Locate UAV orthomosaic
     # ------------------------------------------------------------------ #
-    uav_processed_dir = Path(paths["processed"]) / "uav"
+    uav_processed_dir = Path(paths.get("processed_data", paths.get("processed", "data/processed"))) / "uav"
     candidates = list(uav_processed_dir.glob("*.tif"))
     if not candidates:
         raise FileNotFoundError(

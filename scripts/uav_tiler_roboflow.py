@@ -381,7 +381,7 @@ def run_uav_tiler_roboflow(config: dict) -> dict[str, Any]:
     out_dir   = Path(rb_cfg.get("output_dir", "data/roboflow_upload"))
 
     # Locate preprocessed UAV orthomosaic
-    uav_proc_dir = Path(config["paths"]["processed"]) / "uav"
+    uav_proc_dir = Path(config["paths"].get("processed_data", config["paths"].get("processed", "data/processed"))) / "uav"
     candidates   = list(uav_proc_dir.glob("*.tif"))
     if not candidates:
         raise FileNotFoundError(

@@ -661,21 +661,32 @@ def run_import_roboflow(config: dict) -> dict[str, Any]:
                 f"Using manual Roboflow export from {export_labels_dir}."
             )
         else:
-            raise FileNotFoundError(
-                "No annotations found. Choose one of:\n\n"
-                "  Option A — Roboflow API (fill in config.yaml → roboflow):\n"
-                "    api_key:   YOUR_KEY\n"
-                "    workspace: YOUR_WORKSPACE_SLUG\n"
-                "    project:   YOUR_PROJECT_NAME\n"
-                "    version:   1\n"
-                "  Then re-run: python main.py --step import_roboflow\n\n"
-                "  Option B — Manual download:\n"
-                "    1. Roboflow → your project → Generate Dataset\n"
-                "    2. Export → YOLOv8 format → download ZIP\n"
-                "    3. Extract and place the labels/ folder at:\n"
-                f"       {export_labels_dir}\n"
-                "    4. Re-run: python main.py --step import_roboflow"
+            log.warning(
+                "No Roboflow annotations available yet — skipping import.\n\n"
+                "To annotate and import:\n"
+                "  1. Go to https://app.roboflow.com and open your project\n"
+                "  2. Upload images from data/roboflow_upload/images/\n"
+                "  3. Annotate equipment, then click Generate Dataset\n"
+                "  4. Re-run: python main.py --step import_roboflow\n\n"
+                "Pipeline will continue without equipment annotations.\n"
+                "YOLO training will use GPS pseudo-labels as fallback."
             )
+            return {
+                "n_annotated_tiles":    0,
+                "n_background_tiles":   0,
+                "n_validation_issues":  0,
+                "validation_messages":  [],
+                "unmatched_files":      0,
+                "total_instances":      0,
+                "annotated_tiles":      0,
+                "background_tiles":     0,
+                "instances_per_class":  {},
+                "annotation_rate_pct":  0.0,
+                "geojson_path":         "",
+                "stats_path":           "",
+                "dest_labels_dir":      str(dest_labels_dir),
+                "skipped":              True,
+            }
 
     label_files = scan_export_labels(export_labels_dir)
 

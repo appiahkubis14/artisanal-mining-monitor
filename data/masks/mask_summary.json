@@ -1,0 +1,16 @@
+{
+  "n_positive_tiles": 0,
+  "n_negative_tiles": 1,
+  "total_tiles": 1,
+  "positive_rate": 0.0,
+  "tile_info": [
+    {
+      "tile_id": "s2_00000",
+      "mask_path": "data/masks/s2_00000_mask.npy",
+      "positive_fraction": 0.00037384033203125,
+      "is_positive": false,
+      "row_start": 0,
+      "col_start": 0
+    }
+  ]
+}

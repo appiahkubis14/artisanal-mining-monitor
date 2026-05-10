@@ -1,0 +1,488 @@
+{
+  "source_tif": "data/processed/uav/uav_highres.tif",
+  "tile_size": 640,
+  "overlap": 0.1,
+  "n_tiles": 16,
+  "tiles": [
+    {
+      "tile_id": "tile_000000",
+      "image_file": "tile_000000.jpg",
+      "image_width": 640,
+      "image_height": 640,
+      "actual_width_px": 640,
+      "actual_height_px": 640,
+      "col_start": 0,
+      "row_start": 0,
+      "col_end": 640,
+      "row_end": 640,
+      "georeferencing": {
+        "crs": "EPSG:32630",
+        "epsg": 32630,
+        "min_lon": -1.21051012,
+        "max_lon": -1.2076092,
+        "min_lat": 6.20028769,
+        "max_lat": 6.20319084,
+        "center_lon": -1.20905966,
+        "center_lat": 6.20173927,
+        "pixel_to_geo_transform": [
+          0.5,
+          0.0,
+          698000.0,
+          0.0,
+          -0.5,
+          686000.0
+        ]
+      }
+    },
+    {
+      "tile_id": "tile_000001",
+      "image_file": "tile_000001.jpg",
+      "image_width": 640,
+      "image_height": 640,
+      "actual_width_px": 640,
+      "actual_height_px": 640,
+      "col_start": 576,
+      "row_start": 0,
+      "col_end": 1216,
+      "row_end": 640,
+      "georeferencing": {
+        "crs": "EPSG:32630",
+        "epsg": 32630,
+        "min_lon": -1.20790809,
+        "max_lon": -1.20500716,
+        "min_lat": 6.20027888,
+        "max_lat": 6.20318205,
+        "center_lon": -1.20645763,
+        "center_lat": 6.20173047,
+        "pixel_to_geo_transform": [
+          0.5,
+          0.0,
+          698288.0,
+          0.0,
+          -0.5,
+          686000.0
+        ]
+      }
+    },
+    {
+      "tile_id": "tile_000002",
+      "image_file": "tile_000002.jpg",
+      "image_width": 640,
+      "image_height": 640,
+      "actual_width_px": 640,
+      "actual_height_px": 640,
+      "col_start": 1152,
+      "row_start": 0,
+      "col_end": 1792,
+      "row_end": 640,
+      "georeferencing": {
+        "crs": "EPSG:32630",
+        "epsg": 32630,
+        "min_lon": -1.20530607,
+        "max_lon": -1.20240513,
+        "min_lat": 6.20027006,
+        "max_lat": 6.20317324,
+        "center_lon": -1.2038556,
+        "center_lat": 6.20172165,
+        "pixel_to_geo_transform": [
+          0.5,
+          0.0,
+          698576.0,
+          0.0,
+          -0.5,
+          686000.0
+        ]
+      }
+    },
+    {
+      "tile_id": "tile_000003",
+      "image_file": "tile_000003.jpg",
+      "image_width": 640,
+      "image_height": 640,
+      "actual_width_px": 640,
+      "actual_height_px": 640,
+      "col_start": 1360,
+      "row_start": 0,
+      "col_end": 2000,
+      "row_end": 640,
+      "georeferencing": {
+        "crs": "EPSG:32630",
+        "epsg": 32630,
+        "min_lon": -1.20436645,
+        "max_lon": -1.2014655,
+        "min_lat": 6.20026688,
+        "max_lat": 6.20317005,
+        "center_lon": -1.20291597,
+        "center_lat": 6.20171846,
+        "pixel_to_geo_transform": [
+          0.5,
+          0.0,
+          698680.0,
+          0.0,
+          -0.5,
+          686000.0
+        ]
+      }
+    },
+    {
+      "tile_id": "tile_000004",
+      "image_file": "tile_000004.jpg",
+      "image_width": 640,
+      "image_height": 640,
+      "actual_width_px": 640,
+      "actual_height_px": 640,
+      "col_start": 0,
+      "row_start": 576,
+      "col_end": 640,
+      "row_end": 1216,
+      "georeferencing": {
+        "crs": "EPSG:32630",
+        "epsg": 32630,
+        "min_lon": -1.2105189,
+        "max_lon": -1.207618,
+        "min_lat": 6.19768365,
+        "max_lat": 6.2005868,
+        "center_lon": -1.20906845,
+        "center_lat": 6.19913523,
+        "pixel_to_geo_transform": [
+          0.5,
+          0.0,
+          698000.0,
+          0.0,
+          -0.5,
+          685712.0
+        ]
+      }
+    },
+    {
+      "tile_id": "tile_000005",
+      "image_file": "tile_000005.jpg",
+      "image_width": 640,
+      "image_height": 640,
+      "actual_width_px": 640,
+      "actual_height_px": 640,
+      "col_start": 576,
+      "row_start": 576,
+      "col_end": 1216,
+      "row_end": 1216,
+      "georeferencing": {
+        "crs": "EPSG:32630",
+        "epsg": 32630,
+        "min_lon": -1.20791688,
+        "max_lon": -1.20501597,
+        "min_lat": 6.19767485,
+        "max_lat": 6.20057801,
+        "center_lon": -1.20646643,
+        "center_lat": 6.19912643,
+        "pixel_to_geo_transform": [
+          0.5,
+          0.0,
+          698288.0,
+          0.0,
+          -0.5,
+          685712.0
+        ]
+      }
+    },
+    {
+      "tile_id": "tile_000006",
+      "image_file": "tile_000006.jpg",
+      "image_width": 640,
+      "image_height": 640,
+      "actual_width_px": 640,
+      "actual_height_px": 640,
+      "col_start": 1152,
+      "row_start": 576,
+      "col_end": 1792,
+      "row_end": 1216,
+      "georeferencing": {
+        "crs": "EPSG:32630",
+        "epsg": 32630,
+        "min_lon": -1.20531487,
+        "max_lon": -1.20241395,
+        "min_lat": 6.19766603,
+        "max_lat": 6.2005692,
+        "center_lon": -1.20386441,
+        "center_lat": 6.19911762,
+        "pixel_to_geo_transform": [
+          0.5,
+          0.0,
+          698576.0,
+          0.0,
+          -0.5,
+          685712.0
+        ]
+      }
+    },
+    {
+      "tile_id": "tile_000007",
+      "image_file": "tile_000007.jpg",
+      "image_width": 640,
+      "image_height": 640,
+      "actual_width_px": 640,
+      "actual_height_px": 640,
+      "col_start": 1360,
+      "row_start": 576,
+      "col_end": 2000,
+      "row_end": 1216,
+      "georeferencing": {
+        "crs": "EPSG:32630",
+        "epsg": 32630,
+        "min_lon": -1.20437525,
+        "max_lon": -1.20147433,
+        "min_lat": 6.19766285,
+        "max_lat": 6.20056602,
+        "center_lon": -1.20292479,
+        "center_lat": 6.19911443,
+        "pixel_to_geo_transform": [
+          0.5,
+          0.0,
+          698680.0,
+          0.0,
+          -0.5,
+          685712.0
+        ]
+      }
+    },
+    {
+      "tile_id": "tile_000008",
+      "image_file": "tile_000008.jpg",
+      "image_width": 640,
+      "image_height": 640,
+      "actual_width_px": 640,
+      "actual_height_px": 640,
+      "col_start": 0,
+      "row_start": 1152,
+      "col_end": 640,
+      "row_end": 1792,
+      "georeferencing": {
+        "crs": "EPSG:32630",
+        "epsg": 32630,
+        "min_lon": -1.21052768,
+        "max_lon": -1.20762679,
+        "min_lat": 6.19507962,
+        "max_lat": 6.19798276,
+        "center_lon": -1.20907724,
+        "center_lat": 6.19653119,
+        "pixel_to_geo_transform": [
+          0.5,
+          0.0,
+          698000.0,
+          0.0,
+          -0.5,
+          685424.0
+        ]
+      }
+    },
+    {
+      "tile_id": "tile_000009",
+      "image_file": "tile_000009.jpg",
+      "image_width": 640,
+      "image_height": 640,
+      "actual_width_px": 640,
+      "actual_height_px": 640,
+      "col_start": 576,
+      "row_start": 1152,
+      "col_end": 1216,
+      "row_end": 1792,
+      "georeferencing": {
+        "crs": "EPSG:32630",
+        "epsg": 32630,
+        "min_lon": -1.20792567,
+        "max_lon": -1.20502478,
+        "min_lat": 6.19507082,
+        "max_lat": 6.19797397,
+        "center_lon": -1.20647522,
+        "center_lat": 6.19652239,
+        "pixel_to_geo_transform": [
+          0.5,
+          0.0,
+          698288.0,
+          0.0,
+          -0.5,
+          685424.0
+        ]
+      }
+    },
+    {
+      "tile_id": "tile_000010",
+      "image_file": "tile_000010.jpg",
+      "image_width": 640,
+      "image_height": 640,
+      "actual_width_px": 640,
+      "actual_height_px": 640,
+      "col_start": 1152,
+      "row_start": 1152,
+      "col_end": 1792,
+      "row_end": 1792,
+      "georeferencing": {
+        "crs": "EPSG:32630",
+        "epsg": 32630,
+        "min_lon": -1.20532367,
+        "max_lon": -1.20242277,
+        "min_lat": 6.195062,
+        "max_lat": 6.19796517,
+        "center_lon": -1.20387322,
+        "center_lat": 6.19651358,
+        "pixel_to_geo_transform": [
+          0.5,
+          0.0,
+          698576.0,
+          0.0,
+          -0.5,
+          685424.0
+        ]
+      }
+    },
+    {
+      "tile_id": "tile_000011",
+      "image_file": "tile_000011.jpg",
+      "image_width": 640,
+      "image_height": 640,
+      "actual_width_px": 640,
+      "actual_height_px": 640,
+      "col_start": 1360,
+      "row_start": 1152,
+      "col_end": 2000,
+      "row_end": 1792,
+      "georeferencing": {
+        "crs": "EPSG:32630",
+        "epsg": 32630,
+        "min_lon": -1.20438406,
+        "max_lon": -1.20148315,
+        "min_lat": 6.19505882,
+        "max_lat": 6.19796198,
+        "center_lon": -1.20293361,
+        "center_lat": 6.1965104,
+        "pixel_to_geo_transform": [
+          0.5,
+          0.0,
+          698680.0,
+          0.0,
+          -0.5,
+          685424.0
+        ]
+      }
+    },
+    {
+      "tile_id": "tile_000012",
+      "image_file": "tile_000012.jpg",
+      "image_width": 640,
+      "image_height": 640,
+      "actual_width_px": 640,
+      "actual_height_px": 640,
+      "col_start": 0,
+      "row_start": 1360,
+      "col_end": 640,
+      "row_end": 2000,
+      "georeferencing": {
+        "crs": "EPSG:32630",
+        "epsg": 32630,
+        "min_lon": -1.21053084,
+        "max_lon": -1.20762997,
+        "min_lat": 6.19413927,
+        "max_lat": 6.19704241,
+        "center_lon": -1.20908041,
+        "center_lat": 6.19559084,
+        "pixel_to_geo_transform": [
+          0.5,
+          0.0,
+          698000.0,
+          0.0,
+          -0.5,
+          685320.0
+        ]
+      }
+    },
+    {
+      "tile_id": "tile_000013",
+      "image_file": "tile_000013.jpg",
+      "image_width": 640,
+      "image_height": 640,
+      "actual_width_px": 640,
+      "actual_height_px": 640,
+      "col_start": 576,
+      "row_start": 1360,
+      "col_end": 1216,
+      "row_end": 2000,
+      "georeferencing": {
+        "crs": "EPSG:32630",
+        "epsg": 32630,
+        "min_lon": -1.20792884,
+        "max_lon": -1.20502796,
+        "min_lat": 6.19413047,
+        "max_lat": 6.19703362,
+        "center_lon": -1.2064784,
+        "center_lat": 6.19558205,
+        "pixel_to_geo_transform": [
+          0.5,
+          0.0,
+          698288.0,
+          0.0,
+          -0.5,
+          685320.0
+        ]
+      }
+    },
+    {
+      "tile_id": "tile_000014",
+      "image_file": "tile_000014.jpg",
+      "image_width": 640,
+      "image_height": 640,
+      "actual_width_px": 640,
+      "actual_height_px": 640,
+      "col_start": 1152,
+      "row_start": 1360,
+      "col_end": 1792,
+      "row_end": 2000,
+      "georeferencing": {
+        "crs": "EPSG:32630",
+        "epsg": 32630,
+        "min_lon": -1.20532685,
+        "max_lon": -1.20242595,
+        "min_lat": 6.19412166,
+        "max_lat": 6.19702482,
+        "center_lon": -1.2038764,
+        "center_lat": 6.19557324,
+        "pixel_to_geo_transform": [
+          0.5,
+          0.0,
+          698576.0,
+          0.0,
+          -0.5,
+          685320.0
+        ]
+      }
+    },
+    {
+      "tile_id": "tile_000015",
+      "image_file": "tile_000015.jpg",
+      "image_width": 640,
+      "image_height": 640,
+      "actual_width_px": 640,
+      "actual_height_px": 640,
+      "col_start": 1360,
+      "row_start": 1360,
+      "col_end": 2000,
+      "row_end": 2000,
+      "georeferencing": {
+        "crs": "EPSG:32630",
+        "epsg": 32630,
+        "min_lon": -1.20438724,
+        "max_lon": -1.20148634,
+        "min_lat": 6.19411847,
+        "max_lat": 6.19702164,
+        "center_lon": -1.20293679,
+        "center_lat": 6.19557006,
+        "pixel_to_geo_transform": [
+          0.5,
+          0.0,
+          698680.0,
+          0.0,
+          -0.5,
+          685320.0
+        ]
+      }
+    }
+  ]
+}

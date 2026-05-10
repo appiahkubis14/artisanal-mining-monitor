@@ -1,0 +1,24 @@
+/venv/
+__pycache__/
+*.log
+*.yaml
+# *.json
+*.tif
+*.tiff
+*.npy
+*.onnx
+*.weights
+*.pt
+*.pth
+*.ckpt
+*.zip
+*.tar.gz
+*.tar
+*.tar.bz2
+*.tar.xz
+*.egg-info/
+dist/
+build/
+*.egg
+*.whl
+*.ipynb_checkpoints/

@@ -86,10 +86,17 @@ def step_import_roboflow(config: dict) -> None:
     log.info("STEP: IMPORT ROBOFLOW — annotations import")
     log.info("=" * 60)
     result = run_import_roboflow(config)
-    log.info(
-        f"Import complete: {result['total_instances']} equipment instances, "
-        f"{result['annotated_tiles']} annotated tiles"
-    )
+
+    if result.get("skipped"):
+        log.info(
+            "Roboflow import skipped — no dataset version available yet. "
+            "Pipeline continuing with GPS pseudo-labels for YOLO training."
+        )
+    else:
+        log.info(
+            f"Import complete: {result['total_instances']} equipment instances, "
+            f"{result['annotated_tiles']} annotated tiles"
+        )
 
 
 def step_preprocess(config: dict, uav_available: bool) -> None:
@@ -102,92 +109,93 @@ def step_preprocess(config: dict, uav_available: bool) -> None:
     log.info("=" * 60)
 
     data = load_all_data(config)
-    uav_flag = uav_available and data.get("uav_available", False)
-    preprocess_all(data, config, uav_available=uav_flag)
+    preprocess_all(data, config)
 
 
 def step_tile(config: dict) -> None:
     """Tile preprocessed imagery."""
+    from scripts.data_loader import load_all_data
+    from scripts.preprocessor import preprocess_all
     from scripts.tiler import run_tiling
 
     log.info("=" * 60)
     log.info("STEP: TILING")
     log.info("=" * 60)
-    run_tiling(config)
+
+    data = load_all_data(config)
+    preprocessed = preprocess_all(data, config)
+    uav_available = data.get("uav_available", False)
+    run_tiling(preprocessed, config, uav_available=uav_available)
 
 
 def step_features(config: dict) -> None:
     """Compute spectral indices, texture, and temporal features."""
+    from scripts.data_loader import load_all_data
+    from scripts.preprocessor import preprocess_all
     from scripts.feature_engineering import compute_all_features
-    import numpy as np
 
     log.info("=" * 60)
     log.info("STEP: FEATURE ENGINEERING")
     log.info("=" * 60)
 
-    processed_dir = Path(config["paths"]["processed"])
-    s2_composite = processed_dir / "sentinel2" / "s2_composite.tif"
-    s1_composite = processed_dir / "sentinel1" / "s1_composite.tif"
-    uav_10m = processed_dir / "uav" / "uav_10m.tif"
-
-    import rasterio
-    def _load_tif(p):
-        if not p.exists():
-            return None
-        with rasterio.open(p) as src:
-            return src.read().astype(np.float32)
-
-    s2 = _load_tif(s2_composite)
-    s1 = _load_tif(s1_composite)
-    uav = _load_tif(uav_10m)
-
-    if s2 is None:
-        log.error("Sentinel-2 composite not found. Run preprocess first.")
-        return
-
-    # Get transform from composite
-    with rasterio.open(s2_composite) as src:
-        transform = src.transform
-        crs = src.crs
-
-    compute_all_features(s2, s1, uav, transform, crs, config)
+    data = load_all_data(config)
+    preprocessed = preprocess_all(data, config)
+    uav_available = data.get("uav_available", False)
+    compute_all_features(preprocessed, config, uav_available=uav_available)
 
 
 def step_ground_truth(config: dict) -> None:
     """Prepare ground-truth masks."""
+    from scripts.data_loader import load_all_data
+    from scripts.preprocessor import preprocess_all
+    from scripts.tiler import run_tiling
     from scripts.prepare_ground_truth import prepare_ground_truth
 
     log.info("=" * 60)
     log.info("STEP: GROUND TRUTH PREPARATION")
     log.info("=" * 60)
-    prepare_ground_truth(config)
+
+    data = load_all_data(config)
+    preprocessed = preprocess_all(data, config)
+    uav_available = data.get("uav_available", False)
+    tiling_results = run_tiling(preprocessed, config, uav_available=uav_available)
+    prepare_ground_truth(data, preprocessed, tiling_results, config)
 
 
 def step_train_unet(config: dict) -> None:
     """Train the U-Net segmentation model."""
+    import numpy as np
+    import rasterio
+    from scripts.data_loader import load_all_data
+    from scripts.preprocessor import preprocess_all
+    from scripts.tiler import run_tiling
     from scripts.train_unet import train_unet
-    from scripts.dataset import build_dataloaders
 
     log.info("=" * 60)
     log.info("STEP: TRAINING U-NET")
     log.info("=" * 60)
 
-    tiles_dir = Path(config["paths"]["tiles"]) / "satellite"
-    masks_dir = Path(config["paths"]["masks"])
-    models_dir = Path(config["paths"]["models"])
-    models_dir.mkdir(parents=True, exist_ok=True)
+    # Load tile metadata from tiling step (uses checkpoints so fast if already done)
+    data = load_all_data(config)
+    preprocessed = preprocess_all(data, config)
+    uav_available = data.get("uav_available", False)
+    tiling_results = run_tiling(preprocessed, config, uav_available=uav_available)
 
-    train_loader, val_loader, test_loader = build_dataloaders(
-        tiles_dir=tiles_dir,
-        masks_dir=masks_dir,
-        config=config,
-    )
-    train_unet(
-        train_loader=train_loader,
-        val_loader=val_loader,
-        config=config,
-        save_dir=models_dir,
-    )
+    # satellite tile_metadata is under the sentinel2 key
+    tile_metadata = tiling_results.get("sentinel2", tiling_results)
+
+    # Load feature stack to infer channel count
+    features_dir = Path(config["paths"]["features"])
+    feature_tif  = features_dir / "feature_stack.tif"
+    if feature_tif.exists():
+        with rasterio.open(feature_tif) as src:
+            feature_stack = src.read().astype(np.float32)
+    else:
+        log.warning("feature_stack.tif not found — channel count will be inferred from tiles.")
+        feature_stack = None
+
+    Path(config["paths"]["models"]).mkdir(parents=True, exist_ok=True)
+    train_unet(tile_metadata, feature_stack, config)
 
 
 def step_train_yolo(config: dict, uav_available: bool) -> None:
@@ -196,46 +204,89 @@ def step_train_yolo(config: dict, uav_available: bool) -> None:
         log.warning("UAV data not available – skipping YOLO training.")
         return
 
-    from scripts.train_yolo import train_yolo, create_yolo_dataset_yaml, generate_pseudo_annotations
-    from scripts.data_loader import load_ground_truth
+    from scripts.data_loader import load_all_data
+    from scripts.preprocessor import preprocess_all
+    from scripts.tiler import run_tiling
+    from scripts.train_yolo import train_yolo
 
     log.info("=" * 60)
     log.info("STEP: TRAINING YOLO")
     log.info("=" * 60)
 
-    uav_tiles_dir = Path(config["paths"]["tiles"]) / "uav"
-    yolo_data_dir = Path(config["paths"]["models"]) / "yolo_dataset"
-    models_dir = Path(config["paths"]["models"])
+    data = load_all_data(config)
+    preprocessed = preprocess_all(data, config)
+    tiling_results = run_tiling(preprocessed, config, uav_available=True)
 
-    gt_data = load_ground_truth(config)
-    generate_pseudo_annotations(uav_tiles_dir, gt_data, config)
+    uav_tiling_results = tiling_results.get("uav", {})
+    if not uav_tiling_results:
+        log.warning("No UAV tiling results found – skipping YOLO training.")
+        return
 
-    dataset_yaml = create_yolo_dataset_yaml(uav_tiles_dir, yolo_data_dir, config)
-    train_yolo(dataset_yaml=dataset_yaml, config=config, save_dir=models_dir)
+    gt_df    = data.get("ground_truth")
+    uav_meta = preprocessed.get("uav", {}).get("meta_highres")
+
+    train_yolo(
+        uav_tiling_results=uav_tiling_results,
+        config=config,
+        gt_df=gt_df,
+        uav_meta=uav_meta,
+    )
 
 
 def step_infer(config: dict, uav_available: bool) -> None:
     """Run inference on all dates."""
+    import rasterio
+    import numpy as np
     from scripts.inference_satellite import run_multi_date_inference
 
     log.info("=" * 60)
     log.info("STEP: SATELLITE INFERENCE")
     log.info("=" * 60)
-    run_multi_date_inference(config)
+
+    # Load feature stack from disk (produced by step_features)
+    features_dir = Path(config["paths"]["features"])
+    feature_tif  = features_dir / "feature_stack.tif"
+
+    if not feature_tif.exists():
+        log.error("feature_stack.tif not found. Run --step features first.")
+        return
+
+    with rasterio.open(feature_tif) as src:
+        feature_stack = src.read().astype(np.float32)
+        meta = dict(src.meta)
+
+    # Build a per-date dict — use dates from processed S2 files if available
+    processed_s2_dir = Path(config["paths"]["processed_data"]) / "sentinel2"
+    date_tifs = sorted(processed_s2_dir.glob("sentinel2_2*.tif"))
+
+    if date_tifs:
+        feature_stacks_by_date = {}
+        for tif in date_tifs:
+            date_str = tif.stem.replace("sentinel2_", "")
+            feature_stacks_by_date[date_str] = feature_stack
+    else:
+        # Fallback: single inference labelled 'latest'
+        feature_stacks_by_date = {"latest": feature_stack}
+
+    run_multi_date_inference(feature_stacks_by_date, meta, config)
 
     if uav_available:
         from scripts.inference_uav import run_uav_inference
         log.info("--- UAV Inference ---")
         uav_tiles_dir = Path(config["paths"]["tiles"]) / "uav"
-        output_dir = Path(config["paths"]["outputs"])
+        output_dir    = Path(config["paths"]["outputs"])
+        model_path    = Path(config["paths"]["models"]) / "yolo_best.pt"
+        if not model_path.exists():
+            log.warning("yolo_best.pt not found — skipping UAV inference.")
+            return
         run_uav_inference(
             tiles_dir=uav_tiles_dir,
-            model_path=Path(config["paths"]["models"]) / "yolo_best.pt",
+            model_path=model_path,
             output_dir=output_dir,
             config=config,
         )
     else:
-        log.info("UAV not available – skipping UAV inference.")
+        log.info("UAV not available — skipping UAV inference.")
 
 
 def step_postprocess(config: dict) -> None:
@@ -375,7 +426,7 @@ def main() -> None:
     args = parse_args()
 
     # Logging
-    setup_logging(level=args.log_level)
+    setup_logging(log_level=args.log_level)
     log.info("=" * 70)
     log.info("  ATEWA FOREST RESERVE — ILLEGAL MINING DETECTION PIPELINE")
     log.info("  Master's Thesis | KNUST, Ghana")

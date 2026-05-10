@@ -151,15 +151,15 @@ class UNetResNet50(nn.Module):
             import torchvision.models as models
             resnet = models.resnet50(pretrained=pretrained)
 
-        # Input projection: any channels → 64 (ResNet expects 3/64)
+        # Input projection: any channels → 64 (matches ResNet stem output)
         self.input_proj = nn.Sequential(
-            nn.Conv2d(in_channels, 64, kernel_size=1, bias=False),
+            nn.Conv2d(in_channels, 64, kernel_size=7, stride=2, padding=3, bias=False),
             nn.BatchNorm2d(64),
             nn.ReLU(inplace=True),
         )
 
-        # Encoder layers
-        self.enc0 = nn.Sequential(resnet.conv1, resnet.bn1, resnet.relu)   # [64, H/2, W/2]
+        # Encoder layers — skip resnet.conv1/bn1/relu since input_proj replaces them
+        self.enc0 = nn.Identity()                                             # [64, H/2, W/2]
         self.pool = resnet.maxpool                                            # [64, H/4, W/4]
         self.enc1 = resnet.layer1   # [256, H/4, W/4]
         self.enc2 = resnet.layer2   # [512, H/8, W/8]

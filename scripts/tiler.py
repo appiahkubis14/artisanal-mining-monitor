@@ -239,7 +239,7 @@ def tile_uav_for_yolo(
     Returns:
         Dict with tiling results.
     """
-    import cv2as_cv2
+    # import cv2as_cv2
     try:
         import cv2 as cv2
     except ImportError:
@@ -392,7 +392,7 @@ def run_tiling(
     sat_tile_size = tiling_cfg["satellite_tile_size"]
     uav_tile_size = tiling_cfg["uav_tile_size"]
     overlap = tiling_cfg["overlap"]
-    max_cloud = 1.0 - tiling_cfg["min_cloud_free"]
+    max_cloud = tiling_cfg.get("max_cloud_fraction", 1.0 - tiling_cfg.get("min_cloud_free", 0.1))
     min_valid = tiling_cfg.get("min_valid_fraction", 0.10)
 
     results = {}
