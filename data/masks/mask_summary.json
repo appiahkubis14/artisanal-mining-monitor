@@ -1,16 +1,240 @@
 {
   "n_positive_tiles": 0,
-  "n_negative_tiles": 1,
-  "total_tiles": 1,
+  "n_negative_tiles": 29,
+  "total_tiles": 29,
   "positive_rate": 0.0,
   "tile_info": [
     {
       "tile_id": "s2_00000",
       "mask_path": "data/masks/s2_00000_mask.npy",
-      "positive_fraction": 0.00037384033203125,
+      "positive_fraction": 0.0,
       "is_positive": false,
       "row_start": 0,
+      "col_start": 1227
+    },
+    {
+      "tile_id": "s2_00001",
+      "mask_path": "data/masks/s2_00001_mask.npy",
+      "positive_fraction": 0.0,
+      "is_positive": false,
+      "row_start": 0,
+      "col_start": 1439
+    },
+    {
+      "tile_id": "s2_00002",
+      "mask_path": "data/masks/s2_00002_mask.npy",
+      "positive_fraction": 0.0,
+      "is_positive": false,
+      "row_start": 409,
+      "col_start": 818
+    },
+    {
+      "tile_id": "s2_00003",
+      "mask_path": "data/masks/s2_00003_mask.npy",
+      "positive_fraction": 0.000324249267578125,
+      "is_positive": false,
+      "row_start": 409,
+      "col_start": 1227
+    },
+    {
+      "tile_id": "s2_00004",
+      "mask_path": "data/masks/s2_00004_mask.npy",
+      "positive_fraction": 0.000324249267578125,
+      "is_positive": false,
+      "row_start": 409,
+      "col_start": 1439
+    },
+    {
+      "tile_id": "s2_00005",
+      "mask_path": "data/masks/s2_00005_mask.npy",
+      "positive_fraction": 0.0,
+      "is_positive": false,
+      "row_start": 818,
+      "col_start": 818
+    },
+    {
+      "tile_id": "s2_00006",
+      "mask_path": "data/masks/s2_00006_mask.npy",
+      "positive_fraction": 0.0,
+      "is_positive": false,
+      "row_start": 818,
+      "col_start": 1227
+    },
+    {
+      "tile_id": "s2_00007",
+      "mask_path": "data/masks/s2_00007_mask.npy",
+      "positive_fraction": 0.0,
+      "is_positive": false,
+      "row_start": 818,
+      "col_start": 1439
+    },
+    {
+      "tile_id": "s2_00008",
+      "mask_path": "data/masks/s2_00008_mask.npy",
+      "positive_fraction": 0.0,
+      "is_positive": false,
+      "row_start": 1227,
+      "col_start": 818
+    },
+    {
+      "tile_id": "s2_00009",
+      "mask_path": "data/masks/s2_00009_mask.npy",
+      "positive_fraction": 0.0,
+      "is_positive": false,
+      "row_start": 1227,
+      "col_start": 1227
+    },
+    {
+      "tile_id": "s2_00010",
+      "mask_path": "data/masks/s2_00010_mask.npy",
+      "positive_fraction": 0.0,
+      "is_positive": false,
+      "row_start": 1227,
+      "col_start": 1439
+    },
+    {
+      "tile_id": "s2_00011",
+      "mask_path": "data/masks/s2_00011_mask.npy",
+      "positive_fraction": 0.0,
+      "is_positive": false,
+      "row_start": 1636,
+      "col_start": 409
+    },
+    {
+      "tile_id": "s2_00012",
+      "mask_path": "data/masks/s2_00012_mask.npy",
+      "positive_fraction": 0.00034332275390625,
+      "is_positive": false,
+      "row_start": 1636,
+      "col_start": 818
+    },
+    {
+      "tile_id": "s2_00013",
+      "mask_path": "data/masks/s2_00013_mask.npy",
+      "positive_fraction": 0.0,
+      "is_positive": false,
+      "row_start": 2045,
       "col_start": 0
+    },
+    {
+      "tile_id": "s2_00014",
+      "mask_path": "data/masks/s2_00014_mask.npy",
+      "positive_fraction": 0.0,
+      "is_positive": false,
+      "row_start": 2045,
+      "col_start": 409
+    },
+    {
+      "tile_id": "s2_00015",
+      "mask_path": "data/masks/s2_00015_mask.npy",
+      "positive_fraction": 0.00016021728515625,
+      "is_positive": false,
+      "row_start": 2045,
+      "col_start": 818
+    },
+    {
+      "tile_id": "s2_00016",
+      "mask_path": "data/masks/s2_00016_mask.npy",
+      "positive_fraction": 0.0,
+      "is_positive": false,
+      "row_start": 2454,
+      "col_start": 0
+    },
+    {
+      "tile_id": "s2_00017",
+      "mask_path": "data/masks/s2_00017_mask.npy",
+      "positive_fraction": 0.0,
+      "is_positive": false,
+      "row_start": 2454,
+      "col_start": 409
+    },
+    {
+      "tile_id": "s2_00018",
+      "mask_path": "data/masks/s2_00018_mask.npy",
+      "positive_fraction": 0.0,
+      "is_positive": false,
+      "row_start": 2454,
+      "col_start": 818
+    },
+    {
+      "tile_id": "s2_00019",
+      "mask_path": "data/masks/s2_00019_mask.npy",
+      "positive_fraction": 0.0,
+      "is_positive": false,
+      "row_start": 2863,
+      "col_start": 0
+    },
+    {
+      "tile_id": "s2_00020",
+      "mask_path": "data/masks/s2_00020_mask.npy",
+      "positive_fraction": 0.0,
+      "is_positive": false,
+      "row_start": 2863,
+      "col_start": 409
+    },
+    {
+      "tile_id": "s2_00021",
+      "mask_path": "data/masks/s2_00021_mask.npy",
+      "positive_fraction": 0.0,
+      "is_positive": false,
+      "row_start": 2863,
+      "col_start": 818
+    },
+    {
+      "tile_id": "s2_00022",
+      "mask_path": "data/masks/s2_00022_mask.npy",
+      "positive_fraction": 0.0,
+      "is_positive": false,
+      "row_start": 2863,
+      "col_start": 1227
+    },
+    {
+      "tile_id": "s2_00023",
+      "mask_path": "data/masks/s2_00023_mask.npy",
+      "positive_fraction": 0.0,
+      "is_positive": false,
+      "row_start": 3272,
+      "col_start": 0
+    },
+    {
+      "tile_id": "s2_00024",
+      "mask_path": "data/masks/s2_00024_mask.npy",
+      "positive_fraction": 0.0,
+      "is_positive": false,
+      "row_start": 3272,
+      "col_start": 409
+    },
+    {
+      "tile_id": "s2_00025",
+      "mask_path": "data/masks/s2_00025_mask.npy",
+      "positive_fraction": 0.0,
+      "is_positive": false,
+      "row_start": 3629,
+      "col_start": 0
+    },
+    {
+      "tile_id": "s2_00026",
+      "mask_path": "data/masks/s2_00026_mask.npy",
+      "positive_fraction": 0.0,
+      "is_positive": false,
+      "row_start": 3629,
+      "col_start": 409
+    },
+    {
+      "tile_id": "s2_00027",
+      "mask_path": "data/masks/s2_00027_mask.npy",
+      "positive_fraction": 0.0,
+      "is_positive": false,
+      "row_start": 3629,
+      "col_start": 0
+    },
+    {
+      "tile_id": "s2_00028",
+      "mask_path": "data/masks/s2_00028_mask.npy",
+      "positive_fraction": 0.0,
+      "is_positive": false,
+      "row_start": 3629,
+      "col_start": 409
     }
   ]
 }

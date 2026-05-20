@@ -51,12 +51,28 @@ log = get_logger(__name__)
 # ---------------------------------------------------------------------------
 
 def step_generate_masks(config: dict) -> None:
-    """Auto-generate UAV mining masks (Script 4.5 — no manual annotation needed)."""
-    from scripts.generate_uav_masks import generate_uav_masks
+    """Auto-generate UAV mining masks. Skips gracefully if no UAV data."""
+    import os
 
     log.info("=" * 60)
     log.info("STEP: GENERATE UAV MASKS (auto-annotation)")
     log.info("=" * 60)
+
+    uav_dir = os.path.join(
+        config["paths"].get("processed_data", "data/processed"), "uav"
+    )
+    has_uav = os.path.isdir(uav_dir) and any(
+        f.endswith(".tif") for f in os.listdir(uav_dir)
+    ) if os.path.isdir(uav_dir) else False
+
+    if not has_uav:
+        log.warning(
+            "No UAV data found — skipping mask generation. "
+            "Pipeline will use GPS ground-truth masks if available."
+        )
+        return
+
+    from scripts.generate_uav_masks import generate_uav_masks
     stats = generate_uav_masks(config)
     log.info(
         f"Masks ready — 10 m mining coverage: "
@@ -66,11 +82,27 @@ def step_generate_masks(config: dict) -> None:
 
 def step_prep_roboflow(config: dict) -> None:
     """Tile UAV orthomosaic into 640×640 JPEGs for Roboflow annotation."""
-    from scripts.uav_tiler_roboflow import run_uav_tiler_roboflow
+    import os
 
     log.info("=" * 60)
     log.info("STEP: PREP ROBOFLOW — UAV tile package")
     log.info("=" * 60)
+
+    uav_dir = os.path.join(
+        config["paths"].get("processed_data", "data/processed"), "uav"
+    )
+    has_uav = os.path.isdir(uav_dir) and any(
+        f.endswith(".tif") for f in os.listdir(uav_dir)
+    ) if os.path.isdir(uav_dir) else False
+
+    if not has_uav:
+        log.warning(
+            "No UAV data found — skipping Roboflow tile preparation. "
+            "Add UAV orthomosaic to data/raw/uav/ and re-run to enable."
+        )
+        return
+
+    from scripts.uav_tiler_roboflow import run_uav_tiler_roboflow
     result = run_uav_tiler_roboflow(config)
     log.info(
         f"Roboflow package ready: {result['n_tiles']} tiles "

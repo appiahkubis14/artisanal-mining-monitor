@@ -21,7 +21,6 @@ Pipeline
 All thresholds are read from config.yaml → uav_annotation section.
 
 Author : Atewa Mining Detection Pipeline
-Thesis  : KNUST, Ghana
 """
 
 from __future__ import annotations

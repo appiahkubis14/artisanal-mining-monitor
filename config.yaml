@@ -14,7 +14,7 @@ paths:
   models: "data/models/"
   outputs: "data/outputs/"
   logs: "logs/"
-  boundary: "data/boundary/atewa_boundary.geojson"
+  boundary: "data/boundary/atewa_forest.geojson"
   ground_truth: "data/ground_truth/mining_sites.csv"
 
 preprocessing:
@@ -183,11 +183,10 @@ roboflow:
   # annotated dataset automatically via the Roboflow Python SDK.
   # Leave blank to use the manual export workflow instead.
   # Your API key: https://app.roboflow.com → profile → API Keys
-roboflow:
-  api_key:   "QjuEPvKDQL5W3V8qKRtu"
-  workspace: "kwame-nkrumah-university-of-science-and-technology"
-  project:   "illegal-mining-tzyva"
-  version:   1                     # dataset version number to download
+  api_key:   ""                      # e.g. "abc123XYZ"
+  workspace: ""                      # your workspace slug (shown in the URL)
+  project:   ""                      # your project name slug
+  version:   1                       # dataset version number to download
 
   # Equipment class definitions (must match Roboflow project classes)
   classes:

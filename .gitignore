@@ -1,24 +1,291 @@
+# ============================================================================
+# Python
+# ============================================================================
 /venv/
+/env/
+/.venv/
 __pycache__/
-*.log
-*.yaml
-# *.json
-*.tif
-*.tiff
-*.npy
-*.onnx
-*.weights
-*.pt
-*.pth
-*.ckpt
-*.zip
-*.tar.gz
-*.tar
-*.tar.bz2
-*.tar.xz
+*.py[cod]
+*$py.class
+*.so
+*.egg
 *.egg-info/
 dist/
 build/
-*.egg
 *.whl
+.python-version
 *.ipynb_checkpoints/
+
+# ============================================================================
+# IDE & Editor
+# ============================================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+*.bak
+
+# ============================================================================
+# Configuration & Secrets
+# ============================================================================
+*.yaml
+*.yml
+*.env
+.env.*
+*.secret
+credentials.json
+secrets.yaml
+*.pem
+*.key
+
+# ============================================================================
+# Logs & Reports (keep structure, ignore generated files)
+# ============================================================================
+*.log
+data/outputs/pipeline.log
+data/outputs/reports/*.png
+data/outputs/reports/*.html
+
+# ============================================================================
+# Geospatial Data (Large Rasters)
+# ============================================================================
+# Raster formats
+*.tif
+*.tiff
+*.TIF
+*.TIFF
+*.jp2
+*.JP2
+*.img
+*.IMG
+*.dem
+*.DEM
+*.bil
+*.BIL
+*.bsq
+*.BSQ
+*.hdr
+*.HDR
+*.ers
+*.ERS
+*.grd
+*.GRD
+*.nc
+*.NC
+*.vrt
+*.VRT
+
+# Vector formats
+*.shp
+*.shx
+*.dbf
+*.prj
+*.sbn
+*.sbx
+*.cpg
+*.qpj
+*.geojson
+*.GeoJSON
+*.kml
+*.kmz
+*.gml
+*.gpx
+*.osm
+
+# Satellite metadata
+*.xml
+*.XML
+*.xsd
+*.XSD
+*.xsl
+*.XSL
+*.safe
+*.SAFE
+*.txt  # Be careful, you might want to keep certain .txt files
+
+# ============================================================================
+# Machine Learning Models
+# ============================================================================
+*.pth
+*.pt
+*.ckpt
+*.h5
+*.hdf5
+*.keras
+*.pb
+*.pbtxt
+*.tflite
+*.onnx
+*.mlmodel
+*.caffemodel
+*.prototxt
+*.weights
+*.saved_model/
+*.model
+*.bin
+
+# Model checkpoints & exports
+checkpoints/
+saved_models/
+exports/
+models/*.pkl
+models/*.joblib
+*.pmml
+
+# ============================================================================
+# Data Files (Large arrays & processed)
+# ============================================================================
+*.npy
+*.npz
+*.zarr/
+*.h5
+*.hdf5
+*.mat
+*.parquet
+*.feather
+*.arrow
+*.avro
+*.pkl
+*.pickle
+*.joblib
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+*.duckdb
+
+# ============================================================================
+# Compressed Archives
+# ============================================================================
+*.zip
+*.tar
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.7z
+*.rar
+*.gz
+*.bz2
+*.xz
+*.lzma
+*.Z
+
+# ============================================================================
+# Images & Plots (Generated, not source)
+# ============================================================================
+*.jpeg
+*.jpg
+*.JPEG
+*.JPG
+*.png
+*.PNG
+*.gif
+*.GIF
+*.bmp
+*.BMP
+*.svg
+*.SVG
+*.pdf
+*.PDF
+*.eps
+*.EPS
+
+# Exceptions - Keep certain images if needed
+# !docs/images/*.png
+# !README_images/*.jpg
+
+# ============================================================================
+# Web & Dashboard
+# ============================================================================
+*.html
+*.htm
+*.css.map
+*.js.map
+node_modules/
+bower_components/
+.cache/
+dist/
+
+# ============================================================================
+# Cloud & Container
+# ============================================================================
+.dockerignore
+Dockerfile*
+docker-compose*.yml
+.kube/
+.aws/
+.gcloud/
+
+# ============================================================================
+# Data Directories (if you want to ignore entire folders)
+# ============================================================================
+# data/raw/**
+# data/processed/**
+# !data/raw/.gitkeep
+# !data/processed/.gitkeep
+
+# ============================================================================
+# Temporary & Cache Files
+# ============================================================================
+*.tmp
+*.temp
+*.cache
+*.cached
+tmp/
+temp/
+.cache/
+*.lock
+
+# GDAL/Rasterio caches
+.cpg
+.aux.xml
+*.ovr
+*.aux
+*.rrd
+
+# ============================================================================
+# OS-specific
+# ============================================================================
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+
+# ============================================================================
+# Jupyter
+# ============================================================================
+.ipynb_checkpoints/
+*.ipynb
+.jupyter/
+
+# ============================================================================
+# Misc
+# ============================================================================
+*.orig
+*.patch
+*.diff
+*.rej

@@ -19,10 +19,5 @@
   "sar_vv",
   "sar_vh",
   "sar_vvvh_ratio",
-  "sar_sar_entropy",
-  "uav_uav_red",
-  "uav_uav_green",
-  "uav_uav_blue",
-  "uav_uav_brightness",
-  "uav_uav_edge_density"
+  "sar_sar_entropy"
 ]

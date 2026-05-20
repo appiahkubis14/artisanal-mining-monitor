@@ -20,7 +20,7 @@ from rasterio.features import rasterize
 from rasterio.transform import from_bounds
 from shapely.geometry import Point, Polygon, mapping
 from shapely.ops import unary_union
-
+import cv2
 from scripts.utils import get_logger, load_json, save_json
 
 logger = get_logger(__name__)
@@ -386,6 +386,14 @@ def prepare_ground_truth(
         full_mask = mask_loaded
         mask_source = "uav_auto_mask"
 
+    elif os.path.exists(os.path.join(paths["ground_truth"], "mining_polygons.geojson")):
+        logger.info("Using Google Earth Pro polygons for training masks.")
+        full_mask = polygons_to_mask(
+            os.path.join(paths["ground_truth"], "mining_polygons.geojson"),
+            meta
+        )
+        mask_source = "polygons_google_earth"
+
     # Priority 2 — GPS field points
     elif gt_df is not None and len(gt_df) > 0:
         logger.info(f"Creating masks from {len(gt_df)} GPS ground-truth points.")
@@ -438,3 +446,56 @@ def prepare_ground_truth(
         f"positive_rate={summary['positive_rate']:.3f}"
     )
     return summary
+
+
+def polygons_to_mask(
+    geojson_path: str,
+    meta: Dict[str, Any],
+) -> np.ndarray:
+    """
+    Convert GeoJSON polygons (from Google Earth Pro) to binary raster mask.
+
+    Args:
+        geojson_path: Path to GeoJSON file with mining site polygons.
+        meta: Rasterio metadata dict (crs, transform, height, width).
+
+    Returns:
+        Binary mask array [H, W] — 1 = mining, 0 = background.
+    """
+    if not os.path.exists(geojson_path):
+        raise FileNotFoundError(f"Polygon GeoJSON not found: {geojson_path}")
+
+    gdf = gpd.read_file(geojson_path)
+    H = meta["height"]
+    W = meta["width"]
+    crs = meta["crs"]
+    transform = meta["transform"]
+
+    # Project to raster CRS
+    if gdf.crs != crs:
+        gdf = gdf.to_crs(crs)
+
+    # Filter invalid geometries
+    gdf = gdf[gdf.geometry.is_valid]
+
+    if gdf.empty:
+        logger.warning("No valid polygons — returning empty mask.")
+        return np.zeros((H, W), dtype=np.uint8)
+
+    shapes = [(mapping(geom), 1) for geom in gdf.geometry]
+
+    mask = rasterize(
+        shapes=shapes,
+        out_shape=(H, W),
+        transform=transform,
+        fill=0,
+        dtype=np.uint8,
+        all_touched=True,
+    )
+
+    n_positive = mask.sum()
+    logger.info(
+        f"Polygon mask: {len(gdf)} polygons, "
+        f"positive pixels={n_positive} ({100*n_positive/(H*W):.3f}%)"
+    )
+    return mask

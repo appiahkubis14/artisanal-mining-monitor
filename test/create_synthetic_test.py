@@ -234,6 +234,8 @@ def generate_synthetic_data(root: Path) -> None:
     root/data/boundary/atewa_boundary.geojson
     root/data/ground_truth/mining_sites.csv
     """
+
+
     print("\n" + "=" * 60)
     print("GENERATING SYNTHETIC TEST DATA")
     print("=" * 60)
@@ -287,9 +289,11 @@ def generate_synthetic_data(root: Path) -> None:
     print("\nBoundary GeoJSON:")
     write_boundary_geojson(root / "data" / "boundary" / "atewa_boundary.geojson")
 
+
     # -- Ground-truth CSV --
     print("\nGround-truth CSV:")
     write_ground_truth_csv(root / "data" / "ground_truth" / "mining_sites.csv")
+
 
     print("\n" + "=" * 60)
     print("SYNTHETIC DATA GENERATION COMPLETE")

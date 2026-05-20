@@ -1,6 +1,15 @@
 latitude,longitude,date,site_type,active_status,size_m2,notes
-6.201331,-1.208654,2023-01-15,galamsey,active,500,synthetic site 1
-6.200877,-1.208204,2023-01-15,galamsey,active,500,synthetic site 2
-6.196795,-1.204152,2023-01-15,galamsey,active,500,synthetic site 3
-6.196613,-1.203972,2023-01-15,galamsey,active,500,synthetic site 4
-6.198609,-1.205953,2023-01-15,galamsey,active,500,synthetic site 5
+6.273938,-0.54075,2023-01-01,galamsey,active,1875,galamsey_001
+6.273992,-0.540104,2023-01-01,galamsey,active,1726,galamsey_002
+6.273605,-0.539998,2023-01-01,galamsey,active,409,galamsey_003
+6.273822,-0.541192,2023-01-01,galamsey,active,445,galamsey_004
+6.18416,-0.5776,2023-01-01,galamsey,active,2356,galamsey_005
+6.186383,-0.579279,2023-01-01,galamsey,active,3478,galamsey_006
+6.188239,-0.579754,2023-01-01,galamsey,active,742,galamsey_007
+6.183307,-0.576312,2023-01-01,galamsey,active,499,galamsey_008
+6.151727,-0.608932,2023-01-01,galamsey,active,1539,galamsey_009
+6.150671,-0.607907,2023-01-01,galamsey,active,400,galamsey_010
+5.96305,-0.651563,2023-01-01,galamsey,active,627,galamsey_011
+5.966788,-0.647958,2023-01-01,galamsey,active,2330,galamsey_012
+5.969857,-0.653076,2023-01-01,galamsey,active,5448,galamsey_013
+5.972019,-0.648769,2023-01-01,galamsey,active,932,galamsey_014

@@ -428,24 +428,35 @@ def compute_all_features(
     feature_names  = []
     meta = None
 
+    total_steps = 5  # S2 bands, S2 indices, S2 texture, S1, Landsat
+    step = 0
+
+    def _progress(name):
+        nonlocal step
+        step += 1
+        logger.info(f"  [{step}/{total_steps}] Computing {name}...")
+
     # ---- Sentinel-2 raw bands + indices ----
     if "sentinel2" in preprocessed:
         s2 = preprocessed["sentinel2"]["composite"]  # [6, H, W]
         meta = preprocessed["sentinel2"]["meta"]
 
         # Raw bands
+        _progress("Sentinel-2 raw bands (6 channels)")
         band_names = ["blue", "green", "red", "nir", "swir1", "swir2"]
         for i, name in enumerate(band_names):
             feature_arrays.append(s2[i:i+1])
             feature_names.append(f"s2_{name}")
 
         # Spectral indices
+        _progress("Sentinel-2 spectral indices (NDVI, NDWI, NDBI, BSI, MNDWI, EVI)")
         indices = compute_all_spectral_indices(s2)
         for name, arr in indices.items():
             feature_arrays.append(arr[np.newaxis])
             feature_names.append(name)
 
         # Texture on NDVI
+        _progress("GLCM texture features on NDVI (this may take 1–2 minutes)")
         ndvi = indices["ndvi"]
         texture = compute_glcm_features(ndvi, window_size=5)
         for name, arr in texture.items():
@@ -467,6 +478,7 @@ def compute_all_features(
 
     # ---- Sentinel-1 SAR features ----
     if "sentinel1" in preprocessed:
+        _progress("Sentinel-1 SAR features (VV, VH, ratio, texture)")
         s1 = preprocessed["sentinel1"]["composite"]  # [2, H, W]
 
         # Resample S1 to match S2 spatial dimensions if needed
@@ -487,6 +499,7 @@ def compute_all_features(
 
     # ---- UAV features ----
     if uav_available and "uav" in preprocessed:
+        _progress("UAV features (RGB indices, texture)")
         uav_10m = preprocessed["uav"]["data_10m"]  # [B, H', W']
 
         if meta is not None:
@@ -507,6 +520,7 @@ def compute_all_features(
         raise RuntimeError("No preprocessed data available for feature extraction.")
 
     # Stack all features into a single tensor
+    logger.info(f"  Stacking {len(feature_arrays)} feature arrays → [{sum(a.shape[0] for a in feature_arrays)}, H, W]")
     feature_stack = np.concatenate(feature_arrays, axis=0)  # [C, H, W]
 
     # Replace NaN with 0

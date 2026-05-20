@@ -3,7 +3,7 @@
 **Master's Thesis | KNUST, Ghana**
 
 A multi-sensor deep learning system for detecting illegal artisanal gold mining (*galamsey*)
-in the Atewa Forest Reserve, Ghana. Fuses Sentinel-2, Sentinel-1 SAR, Landsat 8/9, and UAV
+in the Atewa Forest Reserve, Ghana. Fuses Sentinel-2(Optical), Sentinel-1(SAR),Landsat 8/9, and UAV
 imagery with automatic mask generation, Roboflow-assisted equipment annotation, U-Net
 segmentation, YOLOv8 object detection, multi-date change tracking, and an interactive map.
 Every expensive step has checkpoint/resume support — re-running a command after a crash or
@@ -21,8 +21,8 @@ Cloud cover exceeds 180 days per year, making single-sensor optical monitoring i
 This pipeline combines multi-temporal satellite imagery with UAV ground surveys and two
 deep-learning models: a U-Net segmentation model for satellite-scale site delineation and a
 YOLOv8 object detector for individual equipment identification in UAV tiles. Outputs — priority-
-ranked GeoJSONs, change reports, and an interactive HTML map — are designed for direct use by
-rangers and enforcement agencies.
+ranked GeoJSONs, change reports, and an interactive web map — are designed for direct use by
+rangers and enforcement agencies.Feed raw data to the pipeline and get instant ouptut depending on your machine processing power , Note : Powerful GPU with Graphics Card requirement for faster processing and computations.
 
 ---
 
