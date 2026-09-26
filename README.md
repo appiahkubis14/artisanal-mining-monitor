@@ -1,4 +1,4 @@
-# Atewa Forest Reserve — Illegal Mining Detection Pipeline
+# Atewa Forest Reserve — Production-ready Illegal Mining Detection Pipeline
 
 **Master's Thesis | KNUST, Ghana**
 
